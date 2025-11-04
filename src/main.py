@@ -100,25 +100,5 @@ def main():
 
     print("Modelo treinado e salvo com sucesso como obesity_model.pkl")
 
-    # Refinar o modelo (exemplo: usar XGBoost)
-
-    # Aplicar LabelEncoder na coluna y
-    from sklearn.preprocessing import LabelEncoder
-    label_encoder = LabelEncoder()
-    y_encoded = label_encoder.fit_transform(y)
-
-    # Dividir os dados em treino e teste
-    X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42, stratify=y_encoded)
-
-    model_xgb = Pipeline(steps=[
-        ('preprocessor', preprocessor),
-        ('classifier', XGBClassifier(random_state=42, eval_metric='mlogloss'))
-     ])
-    model_xgb.fit(X_train, y_train)
-    y_pred_xgb = model_xgb.predict(X_test)
-    accuracy_xgb = accuracy_score(y_test, y_pred_xgb)
-    print(f'\nPrecisão do modelo XGBoost: {accuracy_xgb:.4f}')
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     main()
