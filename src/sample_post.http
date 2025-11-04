@@ -1,0 +1,11 @@
+### Request para prever o nível de obesidade
+POST http://localhost:5000/predict
+Content-Type: application/json
+
+{
+    "Gender": "Male",
+    "Age": 55.0,
+    "Height": 1.75,
+    "Weight": 82.0,
+    "CALC": "Sometimes"
+}
