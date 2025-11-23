@@ -2,6 +2,28 @@ import streamlit as st
 import pandas as pd
 import pickle
 
+# Dicionários para tradução e informação adicional
+traducao_niveis = {
+    "Insufficient_Weight": "Peso Insuficiente",
+    "Normal_Weight": "Peso Normal",
+    "Overweight_Level_I": "Sobrepeso Nível I",
+    "Overweight_Level_II": "Sobrepeso Nível II",
+    "Obesity_Type_I": "Obesidade Tipo I",
+    "Obesity_Type_II": "Obesidade Tipo II",
+    "Obesity_Type_III": "Obesidade Tipo III"
+}
+
+info_niveis = {
+    "Peso Insuficiente": "Atenção: Seu peso está abaixo do ideal. É recomendável procurar um médico ou nutricionista para avaliação.",
+    "Peso Normal": "Parabéns! Seu peso está na faixa considerada normal. Continue mantendo um estilo de vida saudável.",
+    "Sobrepeso Nível I": "Atenção: Você está com sobrepeso. Pequenas mudanças na dieta e rotina de exercícios podem trazer grandes benefícios.",
+    "Sobrepeso Nível II": "Cuidado: Seu quadro é de sobrepeso. É aconselhável buscar orientação médica para evitar a progressão para obesidade.",
+    "Obesidade Tipo I": "Alerta: Seu quadro é de Obesidade Grau I. É fundamental procurar acompanhamento médico para desenvolver um plano de saúde.",
+    "Obesidade Tipo II": "Alerta de Saúde: Seu quadro é de Obesidade Grau II. O acompanhamento com uma equipe de saúde é crucial para reverter o quadro.",
+    "Obesidade Tipo III": "Alerta Crítico de Saúde: Seu quadro é de Obesidade Grau III (mórbida). Procure ajuda médica imediatamente."
+}
+
+
 # Título da aplicação
 st.title('Preditor de Nível de Obesidade')
 st.write('Insira os dados do paciente para prever o nível de obesidade.')
@@ -29,13 +51,24 @@ with col2:
 # Botão para fazer a predição
 if st.button('Prever Nível de Obesidade'):
     # 3. Processar os dados de entrada
-    # O modelo espera um DataFrame, então precisamos criar um
+    # Criar um DataFrame com TODAS as colunas esperadas pelo modelo
     data = {
         'Gender': [gender],
         'Age': [age],
         'Height': [height],
         'Weight': [weight],
-        'CALC': [calc]
+        'family_history': ['yes'], # Valor padrão
+        'FAVC': ['yes'],           # Valor padrão
+        'FCVC': [2.0],             # Valor padrão
+        'NCP': [3.0],              # Valor padrão
+        'CAEC': ['Sometimes'],     # Valor padrão
+        'SMOKE': ['no'],           # Valor padrão
+        'CH2O': [2.0],             # Valor padrão
+        'SCC': ['no'],             # Valor padrão
+        'FAF': [0.0],              # Valor padrão
+        'TUE': [1.0],              # Valor padrão
+        'CALC': [calc],
+        'MTRANS': ['Public_Transportation'] # Valor padrão
     }
     input_df = pd.DataFrame(data)
 
@@ -44,7 +77,19 @@ if st.button('Prever Nível de Obesidade'):
 
     # 5. Fazer a predição
     prediction = model.predict(input_df)[0]
+    
+    # 6. Traduzir e obter informação adicional
+    resultado_traduzido = traducao_niveis.get(prediction, "Categoria Desconhecida")
+    info_adicional = info_niveis.get(resultado_traduzido, "Não há informações adicionais para esta categoria.")
 
-    # 6. Exibir o resultado
+    # 7. Exibir o resultado
     st.subheader('Resultado da Predição:')
-    st.write(f'O paciente se enquadra na categoria: **{prediction}**')
+    st.write(f'O paciente se enquadra na categoria: **{resultado_traduzido}**')
+    
+    # Exibir a informação adicional com um estilo de alerta
+    if "Alerta Crítico" in info_adicional or "Alerta de Saúde" in info_adicional:
+        st.error(info_adicional)
+    elif "Alerta" in info_adicional or "Cuidado" in info_adicional or "Atenção" in info_adicional:
+        st.warning(info_adicional)
+    else:
+        st.success(info_adicional)

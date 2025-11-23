@@ -20,5 +20,3 @@ Esta ferramenta foi desenvolvida para fornecer insights valiosos à equipe médi
 
 Este projeto utiliza um modelo de Machine Learning treinado com dados de pacientes para fornecer as predições e os insights.
 """)
-
-st.sidebar.success("Selecione uma página acima.")

@@ -3,6 +3,9 @@
 Desenvolvimento de uma aplicação de modelo preditivo para
 auxiliar a tomada de decisão da equipe médica a diagnosticar a obesidade
 
+# Página Streamlit
+https://rm362113-tech4.streamlit.app/
+
 ## Repositório
 git remote add origin https://github.com/pcamargo/tech4.git
 git branch -M main
