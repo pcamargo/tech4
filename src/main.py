@@ -7,7 +7,6 @@ from sklearn.metrics import accuracy_score, classification_report
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
-from xgboost import XGBClassifier
 
 def main():
     df_main = pd.read_csv('../files/obesity.csv')
