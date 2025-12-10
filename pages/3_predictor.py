@@ -23,19 +23,6 @@ info_niveis = {
     "Obesidade Tipo III": "Alerta Crítico de Saúde: Seu quadro é de Obesidade Grau III (mórbida). Procure ajuda médica imediatamente."
 }
 
-traducao_genero = {
-    "Masculino": "Male",
-    "Feminino": "Female"
-}
-
-# Dicionário para o campo de consumo de álcool
-traducao_alcool = {
-    "Às vezes": "Sometimes",
-    "Frequentemente": "Frequently",
-    "Sempre": "Always",
-    "Não consome": "no"
-}
-
 
 # Título da aplicação
 st.title('Preditor de Nível de Obesidade')
@@ -53,20 +40,16 @@ except FileNotFoundError:
 col1, col2 = st.columns(2)
 
 with col1:
-    gender = st.selectbox('Gênero', list(traducao_genero.keys()))
+    gender = st.selectbox('Gênero', ['Female', 'Male'])
     age = st.number_input('Idade', min_value=1.0, max_value=100.0, value=25.0, step=1.0)
     height = st.number_input('Altura (metros)', min_value=0.5, max_value=2.5, value=1.70, step=0.01, format="%.2f")
 
 with col2:
     weight = st.number_input('Peso (kg)', min_value=1.0, max_value=200.0, value=70.0, step=0.1, format="%.1f")
-    # Usar as chaves do dicionário (em português) para as opções do selectbox
-    calc_pt = st.selectbox('Consumo de álcool', list(traducao_alcool.keys()))
+    calc = st.selectbox('Consumo de álcool', ['Sometimes', 'Frequently', 'Always', 'no'])
 
 # Botão para fazer a predição
 if st.button('Prever Nível de Obesidade'):
-    # Traduzir a opção selecionada de volta para o valor em inglês que o modelo espera
-    calc_en = traducao_alcool[calc_pt]
-
     # 3. Processar os dados de entrada
     # Criar um DataFrame com TODAS as colunas esperadas pelo modelo
     data = {
@@ -84,7 +67,7 @@ if st.button('Prever Nível de Obesidade'):
         'SCC': ['no'],             # Valor padrão
         'FAF': [0.0],              # Valor padrão
         'TUE': [1.0],              # Valor padrão
-        'CALC': [calc_en],         # Usar o valor em inglês
+        'CALC': [calc],
         'MTRANS': ['Public_Transportation'] # Valor padrão
     }
     input_df = pd.DataFrame(data)

@@ -11,7 +11,7 @@ st.title("Plataforma de Análise de Fatores de Risco para Obesidade")
 st.markdown("""
 ### Bem-vindo à plataforma de análise de obesidade!
 
-Esta ferramenta foi desenvolvida para fornecer insights valiosos à equipe médica e permitir consultas preditivas sobre os níveis de obesidade com base em dados de pacientes.
+Ferramenta desenvolvida para permitir consultas preditivas sobre os níveis de obesidade com base em dados de pacientes.
 
 **Use a barra de navegação à esquerda para acessar as diferentes seções:**
 
