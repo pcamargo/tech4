@@ -14,13 +14,13 @@ traducao_niveis = {
 }
 
 info_niveis = {
-    "Peso Insuficiente": "Atenção: Seu peso está abaixo do ideal. É recomendável procurar um médico ou nutricionista para avaliação.",
-    "Peso Normal": "Parabéns! Seu peso está na faixa considerada normal. Continue mantendo um estilo de vida saudável.",
-    "Sobrepeso Nível I": "Atenção: Você está com sobrepeso. Pequenas mudanças na dieta e rotina de exercícios podem trazer grandes benefícios.",
-    "Sobrepeso Nível II": "Cuidado: Seu quadro é de sobrepeso. É aconselhável buscar orientação médica para evitar a progressão para obesidade.",
-    "Obesidade Tipo I": "Alerta: Seu quadro é de Obesidade Grau I. É fundamental procurar acompanhamento médico para desenvolver um plano de saúde.",
-    "Obesidade Tipo II": "Alerta de Saúde: Seu quadro é de Obesidade Grau II. O acompanhamento com uma equipe de saúde é crucial para reverter o quadro.",
-    "Obesidade Tipo III": "Alerta Crítico de Saúde: Seu quadro é de Obesidade Grau III (mórbida). Procure ajuda médica imediatamente."
+    "Peso Insuficiente": "Atenção: Seu peso está abaixo do ideal (IMC < 18.5). É recomendável procurar um médico ou nutricionista para avaliação.",
+    "Peso Normal": "Parabéns! Seu peso está na faixa considerada normal (IMC entre 18.5 e 24.9). Continue mantendo um estilo de vida saudável.",
+    "Sobrepeso Nível I": "Atenção: Você está com sobrepeso (IMC entre 25 e 29.9). Pequenas mudanças na dieta e rotina de exercícios podem trazer grandes benefícios.",
+    "Sobrepeso Nível II": "Cuidado: Seu quadro é de sobrepeso (IMC entre 25 e 29.9). É aconselhável buscar orientação médica para evitar a progressão para obesidade.",
+    "Obesidade Tipo I": "Alerta: Seu quadro é de Obesidade Grau I (IMC entre 30 e 34.9). É fundamental procurar acompanhamento médico para desenvolver um plano de saúde.",
+    "Obesidade Tipo II": "Alerta de Saúde: Seu quadro é de Obesidade Grau II (IMC entre 35 e 39.9). O acompanhamento com uma equipe de saúde é crucial para reverter o quadro.",
+    "Obesidade Tipo III": "Alerta Crítico de Saúde: Seu quadro é de Obesidade Grau III (IMC ≥ 40). Procure ajuda médica imediatamente."
 }
 
 traducao_genero = {
@@ -53,7 +53,7 @@ except FileNotFoundError:
 col1, col2 = st.columns(2)
 
 with col1:
-    gender = st.selectbox('Gênero', list(traducao_genero.keys()))
+    gender_pt = st.selectbox('Gênero', list(traducao_genero.keys()))
     age = st.number_input('Idade', min_value=1.0, max_value=100.0, value=25.0, step=1.0)
     height = st.number_input('Altura (metros)', min_value=0.5, max_value=2.5, value=1.70, step=0.01, format="%.2f")
 
@@ -64,13 +64,14 @@ with col2:
 
 # Botão para fazer a predição
 if st.button('Prever Nível de Obesidade'):
-    # Traduzir a opção selecionada de volta para o valor em inglês que o modelo espera
+    # Traduzir as opções selecionadas de volta para os valores em inglês
     calc_en = traducao_alcool[calc_pt]
+    gender_en = traducao_genero[gender_pt]
 
     # 3. Processar os dados de entrada
     # Criar um DataFrame com TODAS as colunas esperadas pelo modelo
     data = {
-        'Gender': [gender],
+        'Gender': [gender_en],
         'Age': [age],
         'Height': [height],
         'Weight': [weight],
@@ -90,7 +91,8 @@ if st.button('Prever Nível de Obesidade'):
     input_df = pd.DataFrame(data)
 
     # 4. Calcular o BMI (Índice de Massa Corporal)
-    input_df['BMI'] = input_df['Weight'] / (input_df['Height'] ** 2)
+    bmi = weight / (height ** 2)
+    input_df['BMI'] = bmi
 
     # 5. Fazer a predição
     prediction = model.predict(input_df)[0]
@@ -101,7 +103,14 @@ if st.button('Prever Nível de Obesidade'):
 
     # 7. Exibir o resultado
     st.subheader('Resultado da Predição:')
-    st.write(f'O paciente se enquadra na categoria: **{resultado_traduzido}**')
+    
+    col1_res, col2_res, col3_res = st.columns(3)
+    with col1_res:
+        st.metric(label="Seu IMC", value=f"{bmi:.2f}")
+    with col2_res:
+        st.metric(label="IMC Ideal", value="18.5 - 24.9")
+    with col3_res:
+        st.metric(label="Categoria Prevista", value=resultado_traduzido)
     
     # Exibir a informação adicional com um estilo de alerta
     if "Alerta Crítico" in info_adicional or "Alerta de Saúde" in info_adicional:
