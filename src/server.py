@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # --- Carregar o modelo salvo ---
 try:
-    with open('obesity_model.pkl', 'rb') as file:
+    with open('../files/obesity_model.pkl', 'rb') as file:
         model = pickle.load(file)
     print("Modelo carregado com sucesso!")
 except FileNotFoundError:

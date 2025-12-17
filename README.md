@@ -29,8 +29,8 @@ Para desenvolver e executar o projeto no PyCharm, seguir os passos abaixo:
 
 4.  **Executando os Scripts:**
     *   **Para treinar o modelo:** Executar o script `src/main.py`. Isso irá gerar o arquivo `obesity_model.pkl`.
-    *   **Para iniciar o servidor web:** Executar o script `src/server.py`.
-    *   **Para rodar a aplicação Streamlit:** Abrir o terminal do PyCharm e executar `streamlit run src/app.py`.
+    *   **Para iniciar o servidor web local:** Executar o script `src/server.py`.
+    *   **Para rodar a aplicação Streamlit local:** Abrir o terminal do PyCharm e executar `streamlit run home.py`.
 
 ## Testar localmente
 Testar a aplicação localmente antes de fazer o deploy, para garantir que tudo funciona como esperado.
@@ -76,3 +76,4 @@ O Streamlit vai construir a aplicação, instalar as dependências a publicar
 - **FAF (Physical activity frequency)**: Physical activity frequency per week on a scale from 0 to 3.
 - **TUE (Time using technology devices)**: Time spent using technological devices daily, such as smartphones or computers, on a scale from 0 to 3.
 - **MTRANS (Main mode of transportation)**: The person's main mode of transportation (e.g., Automobile, Bike, Motorbike, Public Transportation, Walking).
+- 

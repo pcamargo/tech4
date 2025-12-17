@@ -43,7 +43,7 @@ st.write('Insira os dados abaixo para prever o nível de obesidade.')
 
 # 1. Carregar modelo
 try:
-    with open('src/obesity_model.pkl', 'rb') as f:
+    with open('files/obesity_model.pkl', 'rb') as f:
         model = pickle.load(f)
 except FileNotFoundError:
     st.error("O arquivo 'obesity_model.pkl' não foi localizado.")
@@ -104,12 +104,10 @@ if st.button('Prever Nível de Obesidade'):
     # 7. Exibir o resultado
     st.subheader('Resultado da Predição:')
     
-    col1_res, col2_res, col3_res = st.columns(3)
+    col1_res, col2_res = st.columns(2)
     with col1_res:
         st.metric(label="Seu IMC", value=f"{bmi:.2f}")
     with col2_res:
-        st.metric(label="IMC Ideal", value="18.5 - 24.9")
-    with col3_res:
         st.metric(label="Categoria Prevista", value=resultado_traduzido)
     
     # Exibir a informação adicional com um estilo de alerta

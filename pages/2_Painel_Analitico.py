@@ -15,7 +15,7 @@ st.set_page_config(
 # Usar cache para otimizar o carregamento dos dados
 @st.cache_data
 def load_data():
-    df = pd.read_csv('../files/obesity.csv')
+    df = pd.read_csv('files/obesity.csv')
     # Recalcular o IMC para garantir consistência
     df['BMI'] = df['Weight'] / (df['Height'] ** 2)
     return df
@@ -24,7 +24,7 @@ def load_data():
 @st.cache_data
 def load_model():
     try:
-        with open('obesity_model.pkl', 'rb') as f:
+        with open('files/obesity_model.pkl', 'rb') as f:
             model = pickle.load(f)
         return model
     except FileNotFoundError:
@@ -75,7 +75,7 @@ fig_distribuicao = px.pie(
 st.plotly_chart(fig_distribuicao, use_container_width=True)
 
 # 2. Análise Detalhada por Fatores
-st.header("Análise por Fatores Demográficos e de Hábitos")
+st.header("Análise por Idades e Hábitos")
 col1, col2 = st.columns(2)
 
 with col1:
